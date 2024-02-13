@@ -1,0 +1,113 @@
+const ErrorResponse = require('../utils/errorResponse');
+const asyncHandler = require('../middleware/async');
+const Joueur = require('../models/Joueur');
+
+exports.envoyerDemandeAmi = async (req, res, next) => {
+  try {
+    const { utilisateurId, amiId } = req.body;
+
+    const utilisateur = await Joueur.findById(utilisateurId);
+    const ami = await Joueur.findById(amiId);
+
+    if (!utilisateur || !ami) {
+      return res
+        .status(404)
+        .json({ message: 'Utilisateur ou ami non trouvé.' });
+    }
+
+    // Votre logique pour envoyer une demande d'ami
+    await ami.ajouterAmiTemporaire(utilisateurId);
+
+    res.status(200).json({ message: "Demande d'ami envoyée avec succès." });
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+};
+
+exports.accepterDemandeAmi = async (req, res, next) => {
+  try {
+    const { utilisateurId, amiId } = req.body;
+
+    const utilisateur = await Joueur.findById(utilisateurId);
+
+    if (!utilisateur) {
+      return res.status(404).json({ message: 'Utilisateur non trouvé.' });
+    }
+
+    // Votre logique pour accepter une demande d'ami
+    await utilisateur.accepterAmiTemporaire(amiId);
+
+    res.status(200).json({ message: "Demande d'ami acceptée avec succès." });
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+};
+
+exports.refuserDemandeAmi = async (req, res, next) => {
+  try {
+    const { utilisateurId, amiId } = req.body;
+
+    const utilisateur = await Joueur.findById(utilisateurId);
+
+    if (!utilisateur) {
+      return res.status(404).json({ message: 'Utilisateur non trouvé.' });
+    }
+
+    // Votre logique pour refuser une demande d'ami
+    await utilisateur.refuserAmiTemporaire(amiId);
+
+    res.status(200).json({ message: "Demande d'ami refusée avec succès." });
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+};
+
+exports.supprimerAmiMutuel = async (req, res, next) => {
+  try {
+    const { utilisateurId, amiId } = req.body;
+
+    const utilisateur = await Joueur.findById(utilisateurId);
+    const ami = await Joueur.findById(amiId);
+
+    if (!utilisateur || !ami) {
+      return res
+        .status(404)
+        .json({ message: 'Utilisateur ou ami non trouvé.' });
+    }
+
+    // Appel à la méthode supprimerAmiMutuel pour les deux utilisateurs
+    await utilisateur.supprimerAmiMutuel(amiId);
+    await ami.supprimerAmiMutuel(utilisateurId);
+
+    res.status(200).json({ message: 'Ami supprimé mutuellement avec succès.' });
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+};
+
+exports.annulerDemandeAmi = async (req, res, next) => {
+  try {
+    const { utilisateurId, amiId } = req.body;
+
+    const utilisateur = await Joueur.findById(utilisateurId);
+    const ami = await Joueur.findById(amiId);
+
+    if (!utilisateur || !ami) {
+      return res
+        .status(404)
+        .json({ message: 'Utilisateur ou ami non trouvé.' });
+    }
+
+    // Appel à la méthode annulerDemandeAmi définie dans le modèle Joueur
+    await ami.annulerDemandeAmi(utilisateurId);
+
+    res.status(200).json({ message: "Demande d'ami annulée avec succès." });
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+};

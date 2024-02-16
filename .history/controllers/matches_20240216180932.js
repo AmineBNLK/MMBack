@@ -201,7 +201,7 @@ exports.joinMatch = asyncHandler(async (req, res, next) => {
   }
 
   // Ajouter le joueur à la liste des participants
-  ////////////////////////////////////////////////////req.joueur.id
+  ////////////////////////////////////////////////////req.
   match.participants.push(req.user._id);
   await match.save();
 

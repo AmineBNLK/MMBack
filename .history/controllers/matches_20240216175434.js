@@ -107,11 +107,11 @@ exports.getMatches = asyncHandler(async (req, res, next) => {
 // @access  Public
 
 exports.getMatch = asyncHandler(async (req, res, next) => {
-  const match = await Match.findById(req.params.id);
+  const match = await Match.findById(req.body.joueur);
 
   if (!match) {
     return next(
-      new ErrorResponse(`Match not found with id of ${req.params.id}`, 400)
+      new ErrorResponse(`Match not found with id of ${req.body.joueur}`, 400)
     );
   }
 
@@ -182,16 +182,16 @@ exports.createMatch = asyncHandler(async (req, res, next) => {
 // @access  Privé
 
 exports.joinMatch = asyncHandler(async (req, res, next) => {
-  const match = await Match.findById(req.body.matchId);
+  const match = await Match.findById(req.body.joueur);
 
   if (!match) {
     return next(
-      new ErrorResponse(`Match not found with id of ${req.params.id}`, 400)
+      new ErrorResponse(`Match not found with id of ${req.body.joueur}`, 400)
     );
   }
 
   // Vérifier si le joueur est déjà dans la liste des participants
-  if (match.participants.includes(req.user._id)) {
+  if (match.participants.includes(req.joueur.id)) {
     return next(new ErrorResponse(`Le joueur est déjà dans le match.`, 400));
   }
 
@@ -201,8 +201,7 @@ exports.joinMatch = asyncHandler(async (req, res, next) => {
   }
 
   // Ajouter le joueur à la liste des participants
-  ////////////////////////////////////////////////////req.joueur.id
-  match.participants.push(req.user._id);
+  match.participants.push(req.joueur.id);
   await match.save();
 
   res.status(200).json({ success: true, data: match });
@@ -213,11 +212,11 @@ exports.joinMatch = asyncHandler(async (req, res, next) => {
 // @access  Privé
 
 exports.leaveMatch = asyncHandler(async (req, res, next) => {
-  const match = await Match.findById(req.params.id);
+  const match = await Match.findById(req.body.joueur);
 
   if (!match) {
     return next(
-      new ErrorResponse(`Match not found with id of ${req.params.id}`, 400)
+      new ErrorResponse(`Match not found with id of ${req.body.joueur}`, 400)
     );
   }
 
@@ -240,11 +239,11 @@ exports.leaveMatch = asyncHandler(async (req, res, next) => {
 // @access  Privé
 
 exports.updateMatch = asyncHandler(async (req, res, next) => {
-  let match = await Match.findById(req.params.id);
+  let match = await Match.findById(req.body.joueur);
 
   if (!match) {
     return next(
-      new ErrorResponse(`Match not found with id of ${req.params.id}`, 400)
+      new ErrorResponse(`Match not found with id of ${req.body.joueur}`, 400)
     );
   }
 
@@ -252,13 +251,13 @@ exports.updateMatch = asyncHandler(async (req, res, next) => {
   if (match.joueur.toString() !== req.joueur.id) {
     return next(
       new ErrorResponse(
-        `le joueur ${req.params.id} n'est pas propriétaire`,
+        `le joueur ${req.body.joueur} n'est pas propriétaire`,
         400
       )
     );
   }
 
-  match = await Match.findByIdAndUpdate(req.params.id, req.body, {
+  match = await Match.findByIdAndUpdate(req.body.joueur, req.body, {
     new: true,
     runValidators: true,
   });
@@ -271,11 +270,11 @@ exports.updateMatch = asyncHandler(async (req, res, next) => {
 // @access  Public
 
 exports.deleteMatch = asyncHandler(async (req, res, next) => {
-  let match = await Match.findById(req.params.id);
+  let match = await Match.findById(req.body.joueur);
 
   if (!match) {
     return next(
-      new ErrorResponse(`Match not found with id of ${req.params.id}`, 400)
+      new ErrorResponse(`Match not found with id of ${req.body.joueur}`, 400)
     );
   }
 
@@ -283,13 +282,13 @@ exports.deleteMatch = asyncHandler(async (req, res, next) => {
   if (match.joueur.toString() !== req.joueur.id) {
     return next(
       new ErrorResponse(
-        `le joueur ${req.params.id} n'est pas propriétaire`,
+        `le joueur ${req.body.joueur} n'est pas propriétaire`,
         400
       )
     );
   }
 
-  match = await Match.findByIdAndDelete(req.params.id, req.body, {
+  match = await Match.findByIdAndDelete(req.body.joueur, req.body, {
     new: true,
     runValidators: true,
   });

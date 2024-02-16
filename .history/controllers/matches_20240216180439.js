@@ -182,7 +182,7 @@ exports.createMatch = asyncHandler(async (req, res, next) => {
 // @access  Privé
 
 exports.joinMatch = asyncHandler(async (req, res, next) => {
-  const match = await Match.findById(req.body.matchId);
+  const match = await Match.findById(req.body.matchid);
 
   if (!match) {
     return next(
@@ -191,7 +191,7 @@ exports.joinMatch = asyncHandler(async (req, res, next) => {
   }
 
   // Vérifier si le joueur est déjà dans la liste des participants
-  if (match.participants.includes(req.user._id)) {
+  if (match.participants.includes(req.joueur.id)) {
     return next(new ErrorResponse(`Le joueur est déjà dans le match.`, 400));
   }
 
@@ -201,8 +201,7 @@ exports.joinMatch = asyncHandler(async (req, res, next) => {
   }
 
   // Ajouter le joueur à la liste des participants
-  ////////////////////////////////////////////////////req.joueur.id
-  match.participants.push(req.user._id);
+  match.participants.push(req.joueur.id);
   await match.save();
 
   res.status(200).json({ success: true, data: match });

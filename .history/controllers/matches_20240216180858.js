@@ -201,11 +201,17 @@ exports.joinMatch = asyncHandler(async (req, res, next) => {
   }
 
   // Ajouter le joueur à la liste des participants
-  ////////////////////////////////////////////////////req.joueur.id
-  match.participants.push(req.user._id);
+  match.participants.push(req.joueur.id);
   await match.save();
 
   res.status(200).json({ success: true, data: match });
+});
+
+// Ajouter le joueur à la liste des participants
+match.participants.push(req.joueur.id);
+await match.save();
+
+res.status(200).json({ success: true, data: match });
 });
 
 // @desc    Quitter un match

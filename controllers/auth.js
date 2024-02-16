@@ -74,12 +74,11 @@ exports.register = async (req, res) => {
       hasCompletedProfile,
       photo,
       adresse,
-      age
+      age,
     } = req.body
     bcrypt.hash(password, saltRounds, async (err, hashedPassword) => {
       if (err) {
         console.error("Erreur lors du hashage du mot de passe :", err)
-        // return res.redirect("https://moussabakat-ramadan.com/Profil")
       }
       const newUser = await Joueur.create({
         name,
@@ -94,9 +93,17 @@ exports.register = async (req, res) => {
         hasCompletedProfile,
         photo,
         adresse,
-        age
+        age,
       })
-      res.status(200).send(newUser)
+      // Connecter automatiquement l'utilisateur après l'inscription
+      await req.logIn(newUser, (err) => {
+        if (err) {
+          console.error("Erreur lors de la connexion de l'utilisateur :", err)
+          return next(err)
+        }
+        // Renvoyer une réponse pour indiquer que l'inscription et la connexion ont réussi
+        res.status(200).json({ success: true, user: newUser })
+      })
     })
   } catch (error) {
     console.log(error)

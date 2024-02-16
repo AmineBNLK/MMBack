@@ -66,7 +66,6 @@ exports.register = async (req, res) => {
       email,
       password,
       role,
-      
       posts,
       phone,
       region,

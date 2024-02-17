@@ -83,7 +83,7 @@ const { trusted } = require("mongoose")
 // @access  Private
 exports.getMatches = asyncHandler(async (req, res, next) => {
   // Utiliser populate pour peupler les données des joueurs dans les matches
-  const matches = await Match.find().populate("joueur")
+  const matches = await Match.find().populate("participants")
   res.status(200).json({ success: true, count: matches.length, data: matches })
 })
 

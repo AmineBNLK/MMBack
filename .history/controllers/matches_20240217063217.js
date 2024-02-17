@@ -221,7 +221,7 @@ exports.leaveMatch = asyncHandler(async (req, res, next) => {
   }
 
   // Vérifier si le joueur est dans la liste des participants
-  if (!match.participants.includes(req.user._id)) {
+  if (!match.participants.includes(req.joueur.id)) {
     return next(new ErrorResponse(`Le joueur n'est pas dans le match.`, 400))
   }
 
@@ -275,6 +275,16 @@ exports.deleteMatch = asyncHandler(async (req, res, next) => {
   if (!match) {
     return next(
       new ErrorResponse(`Match not found with id of ${req.params.id}`, 400)
+    )
+  }
+
+  // Make sur user is bootcamp owner
+  if (match.joueur.toString() !== req.joueur.id) {
+    return next(
+      new ErrorResponse(
+        `le joueur ${req.params.id} n'est pas propriétaire`,
+        400
+      )
     )
   }
 

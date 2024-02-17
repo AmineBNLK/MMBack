@@ -270,7 +270,7 @@ exports.updateMatch = asyncHandler(async (req, res, next) => {
 // @access  Public
 
 exports.deleteMatch = asyncHandler(async (req, res, next) => {
-  let match = await Match.findById(req.params.id)
+  let match = await Match.findById(req.body.matchId)
 
   if (!match) {
     return next(

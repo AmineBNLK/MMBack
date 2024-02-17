@@ -278,6 +278,8 @@ exports.deleteMatch = asyncHandler(async (req, res, next) => {
     )
   }
 
+
+
   match = await Match.findByIdAndDelete(req.params.id, req.body, {
     new: true,
     runValidators: true,

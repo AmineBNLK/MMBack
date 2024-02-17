@@ -278,6 +278,16 @@ exports.deleteMatch = asyncHandler(async (req, res, next) => {
     )
   }
 
+  // Make sur user is bootcamp owner
+  if (match.joueur.toString() !== req.joueur.id) {
+    return next(
+      new ErrorResponse(
+        `le joueur ${req.params.id} n'est pas propriétaire`,
+        400
+      )
+    )
+  }
+
   match = await Match.findByIdAndDelete(req.params.id, req.body, {
     new: true,
     runValidators: true,

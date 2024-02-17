@@ -270,13 +270,14 @@ exports.updateMatch = asyncHandler(async (req, res, next) => {
 // @access  Public
 
 exports.deleteMatch = asyncHandler(async (req, res, next) => {
-  let match = await Match.findById(req.params.id)
+  let match = await Match.findById(req.body.matchId)
 
   if (!match) {
     return next(
       new ErrorResponse(`Match not found with id of ${req.params.id}`, 400)
     )
   }
+
 
   match = await Match.findByIdAndDelete(req.params.id, req.body, {
     new: true,

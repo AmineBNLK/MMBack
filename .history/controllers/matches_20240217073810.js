@@ -241,21 +241,11 @@ exports.leaveMatch = asyncHandler(async (req, res, next) => {
 exports.updateMatch = asyncHandler(async (req, res, next) => {
   let match = await Match.findById(req.params.id)
 
-  if (!match) {
-    return next(
-      new ErrorResponse(`Match not found with id of ${req.params.id}`, 400)
-    )
-  }
-
-  // Make sur user is bootcamp owner
-  if (match.joueur.toString() !== req.joueur.id) {
-    return next(
-      new ErrorResponse(
-        `le joueur ${req.params.id} n'est pas propriétaire`,
-        400
+    if (!match) {
+      return next(
+        new ErrorResponse(`Match not found with id of ${req.params.id}`, 400)
       )
-    )
-  }
+    }
 
   match = await Match.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
@@ -270,7 +260,7 @@ exports.updateMatch = asyncHandler(async (req, res, next) => {
 // @access  Public
 
 exports.deleteMatch = asyncHandler(async (req, res, next) => {
-  let match = await Match.findById(req.params.id)
+  let match = await Match.findById(req.body.matchId)
 
   if (!match) {
     return next(

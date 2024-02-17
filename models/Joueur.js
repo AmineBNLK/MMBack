@@ -133,7 +133,7 @@ const JoueurSchema = new mongoose.Schema(
     },
     photo: {
       type: String,
-      default: defaultPhotoPath,
+      default: "http://localhost:5000/uploads/PDP.jpg",
     },
     adresse: {
       type: String,

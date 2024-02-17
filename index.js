@@ -73,7 +73,8 @@ app.use(fileupload())
 // app.set('view engine', 'ejs');
 
 // Set static folder
-app.use(express.static(path.join(__dirname, "public/")))
+// app.use(express.static(path.join(__dirname, "public/")))
+app.use("/uploads", express.static(path.join(__dirname, "public/uploads")))
 
 // Mount routers
 app.use("/api/v1/matches", matches)

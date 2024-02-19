@@ -113,11 +113,13 @@ const JoueurSchema = new mongoose.Schema(
         "Ailier droit (AD)",
         "Ailier gauche (AG)",
       ],
+      
     },
     niveau: {
       // Array of strings
       type: [String],
       enum: ["Débutant", "Occasionnel", "Régulier", "Profesionnel"],
+      default: null,
     },
     hasCompletedProfile: {
       type: Boolean,

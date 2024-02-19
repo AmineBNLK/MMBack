@@ -74,7 +74,7 @@ exports.updateTournoi = async (req, res, next) => {
 // @route   DELETE /api/v1/bootcamps/:id
 // @access  Private
 exports.deleteTournoi = asyncHandler(async (req, res, next) => {
-  let tournoi = await Tournoi.findById(req.params.id)
+let tournoi = await Tournoi.findById(req.params.id)
 
   if (!tournoi) {
     return next(

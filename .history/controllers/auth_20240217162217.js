@@ -129,7 +129,6 @@ exports.login = async (req, res, next) => {
         return next(err)
       }
       res.status(200).send(user)
-      // redirect('http://localhost:5173/Profile');
     })
   })(req, res, next)
 }
@@ -244,7 +243,7 @@ exports.updateDetails = asyncHandler(async (req, res, next) => {
 // @route   PUT /api/v1/auth/updatepassword
 // @access  Private
 exports.updatePassword = asyncHandler(async (req, res, next) => {
-  const joueur = await Joueur.findById(req.joueur.id).select("+password")
+  const joueur = await Joueur.findById(req.body.id).select("+password")
 
   // Check current password
   if (!(await joueur.matchPassword(req.body.currentPassword))) {

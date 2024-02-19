@@ -37,7 +37,7 @@ const JoueurSchema = new mongoose.Schema(
       maxlenght: [20, "Mot de passe ne pas depassé 20 caracteres"],
     },
     region: {
-      type: [String],
+      type: String,
       enum: [
         "Adrar",
         "Chlef",

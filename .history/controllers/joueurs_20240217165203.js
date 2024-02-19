@@ -1,7 +1,6 @@
 const ErrorResponse = require("../utils/errorResponse")
 const asyncHandler = require("../middleware/async")
 const Joueur = require("../models/Joueur")
-const bcrypt = require("bcrypt")
 
 // // @desc    Get all users
 // // @route   GET /api/v1/auth/joueurs

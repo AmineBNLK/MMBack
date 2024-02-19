@@ -101,6 +101,7 @@ const JoueurSchema = new mongoose.Schema(
     },
     posts: {
       type: [String],
+      required: true,
       enum: [
         "Gardien de but (GK)",
         "Arrière droit (ARD)",
@@ -117,6 +118,7 @@ const JoueurSchema = new mongoose.Schema(
     niveau: {
       // Array of strings
       type: [String],
+      required: true,
       enum: ["Débutant", "Occasionnel", "Régulier", "Profesionnel"],
     },
     hasCompletedProfile: {

@@ -17,8 +17,8 @@ router.route('/:id/photo').put(joueurPhotoUpload);
 
 router.post('/register', register);
 router.post('/login', login);
-router.get('/me',getMe);
-router.put('/updatedetails',updateDetails);
+router.get('/me', protect, getMe);
+router.put('/updatedetails', protect, updateDetails);
 router.put('/updatepassword',updatePassword);
 router.get('/logout', logout);
 

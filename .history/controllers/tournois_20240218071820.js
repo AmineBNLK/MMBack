@@ -74,7 +74,20 @@ exports.updateTournoi = async (req, res, next) => {
 // @route   DELETE /api/v1/bootcamps/:id
 // @access  Private
 exports.deleteTournoi = asyncHandler(async (req, res, next) => {
-  let tournoi = await Tournoi.findById(req.params.id)
+  try {
+    const tournoi = await Tournoi.findByIdAndDelete(req.body.tournoiId)
+
+    if (!tournoi) {
+      return res.status(400).json({ success: false })
+    }
+
+    res.status(200).json({ success: true, data: {} })
+  } catch (err) {
+    return res.status(401).json({ success: false })
+  }
+})
+
+let tournoi = await Tournoi.findById(req.params.id)
 
   if (!tournoi) {
     return next(
@@ -82,7 +95,7 @@ exports.deleteTournoi = asyncHandler(async (req, res, next) => {
     )
   }
 
-  tournoi = await Tournoi.findByIdAndDelete(req.params.id, req.body, {
+  tournoi = await tournoi.findByIdAndDelete(req.params.id, req.body, {
     new: true,
     runValidators: true,
   })

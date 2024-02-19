@@ -129,7 +129,6 @@ exports.login = async (req, res, next) => {
         return next(err)
       }
       res.status(200).send(user)
-      // redirect('http://localhost:5173/Profile');
     })
   })(req, res, next)
 }
@@ -240,22 +239,31 @@ exports.updateDetails = asyncHandler(async (req, res, next) => {
   })
 })
 
-// @desc    Update password
-// @route   PUT /api/v1/auth/updatepassword
-// @access  Private
-exports.updatePassword = asyncHandler(async (req, res, next) => {
-  const joueur = await Joueur.findById(req.joueur.id).select("+password")
+// // @desc    Update password
+// // @route   PUT /api/v1/auth/updatepassword
+// // @access  Private
+// exports.updatePassword = asyncHandler(async (req, res, next) => {
+//   const joueur = await Joueur.findById(req.body.user).select("+password")
 
-  // Check current password
-  if (!(await joueur.matchPassword(req.body.currentPassword))) {
-    return next(new ErrorResponse("Password is incorrect", 401))
-  }
+//   // Vérifier le mot de passe
+//   bcrypt.compare(password, currUser.password, (err, isMatch) => {
+//     if (err) {
+//       return done(err)
+//     }
+//     if (isMatch) {
+//       return done(null, currUser)
+//     } else {
+//       return done(null, false, {
+//         message: "Nom d'utilisateur ou mot de passe incorrecte",
+//       })
+//     }
+//   })
 
-  joueur.password = req.body.newPassword
-  await joueur.save()
+//   joueur.password = req.body.newPassword
+//   await joueur.save()
 
-  sendTokenResponse(joueur, 200, res)
-})
+//   sendTokenResponse(joueur, 200, res)
+// })
 
 // Google login
 

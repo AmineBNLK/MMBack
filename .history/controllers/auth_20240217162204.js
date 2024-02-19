@@ -129,7 +129,6 @@ exports.login = async (req, res, next) => {
         return next(err)
       }
       res.status(200).send(user)
-      // redirect('http://localhost:5173/Profile');
     })
   })(req, res, next)
 }

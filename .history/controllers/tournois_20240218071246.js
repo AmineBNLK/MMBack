@@ -50,42 +50,39 @@ exports.createTournoi = asyncHandler(async (req, res, next) => {
   })
 })
 
-// @desc    Update tournois
-// @route   PUT /api/v1/bootcamps/:id
+// // @desc    Update tournois
+// // @route   PUT /api/v1/bootcamps/:id
+// // @access  Private
+// exports.updateTournoi = async (req, res, next) => {
+//   try {
+//     const tournoi = await Tournoi.findByIdAndUpdate(req.params.id, req.body, {
+//       new: true,
+//       runValidators: true,
+//     })
+
+//     if (!tournoi) {
+//       return res.status(400).json({ success: false })
+//     }
+
+//     res.status(200).json({ success: true, data: tournoi })
+//   } catch (err) {
+//     return res.status(400).json({ success: false })
+//   }
+// }
+
+// @desc    delete tournois
+// @route   DELETE /api/v1/bootcamps/:id
 // @access  Private
-exports.updateTournoi = async (req, res, next) => {
+exports.deleteTournoi = async (req, res, next) => {
   try {
-    const tournoi = await Tournoi.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true,
-    })
+    const tournoi = await Tournoi.findByIdAndDelete(req.body.tournoiId)
 
     if (!tournoi) {
       return res.status(400).json({ success: false })
     }
 
-    res.status(200).json({ success: true, data: tournoi })
+    res.status(200).json({ success: true, data: {} })
   } catch (err) {
-    return res.status(400).json({ success: false })
+    return res.status(401).json({ success: false })
   }
 }
-
-// @desc    delete tournois
-// @route   DELETE /api/v1/bootcamps/:id
-// @access  Private
-exports.deleteTournoi = asyncHandler(async (req, res, next) => {
-  let tournoi = await Tournoi.findById(req.params.id)
-
-  if (!tournoi) {
-    return next(
-      new ErrorResponse(`tournoi not found with id of ${req.params.id}`, 400)
-    )
-  }
-
-  tournoi = await Tournoi.findByIdAndDelete(req.params.id, req.body, {
-    new: true,
-    runValidators: true,
-  })
-
-  res.status(200).json({ success: true, data: {} })
-})

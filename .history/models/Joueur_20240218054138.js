@@ -118,6 +118,7 @@ const JoueurSchema = new mongoose.Schema(
       // Array of strings
       type: [String],
       enum: ["Débutant", "Occasionnel", "Régulier", "Profesionnel"],
+      default: null,
     },
     hasCompletedProfile: {
       type: Boolean,
